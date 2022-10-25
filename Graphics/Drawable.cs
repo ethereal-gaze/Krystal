@@ -8,10 +8,13 @@ namespace Krystal.Graphics
         private VertexShader _vertexShader = new VertexShader("Assets/Shaders/core.vert");
         private ShaderProgram _shaderProgram = new ShaderProgram();
 
+        public int TextureID { get; protected set; }
+
         public Drawable()
         {
             UpdateProgram();
         }
+        
         private void UpdateProgram()
         {
             _shaderProgram = new ShaderProgram();
