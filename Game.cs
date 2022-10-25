@@ -1,11 +1,9 @@
+using System.Reflection;
 using Krystal.Graphics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-
 using OpenTK.Graphics.OpenGL4;
-
 using OpenTK.Mathematics;
-using OpenTK.Windowing.Common.Input;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Krystal
@@ -16,7 +14,7 @@ namespace Krystal
         private RenderHandler _renderHandler;
 
         public Game(int initialWidth, int initialHeight, string initialTitle) : base(GameWindowSettings.Default,
-            new NativeWindowSettings() { Size = (initialWidth, initialHeight), Title = initialTitle })
+            new NativeWindowSettings { Size = (initialWidth, initialHeight), Title = initialTitle })
         {
             _renderHandler = new RenderHandler();
             _gameStateHandler = new GameStateHandler();
@@ -24,6 +22,15 @@ namespace Krystal
 
         protected override void OnLoad()
         {
+            var loadableInstances = from t in Assembly.GetExecutingAssembly().GetTypes()
+                where (t.GetInterfaces().Contains(typeof(ILoadable)) && !t.IsAbstract) && t.GetConstructor(Type.EmptyTypes) != null
+                select Activator.CreateInstance(t) as ILoadable;
+
+            foreach (var instance in loadableInstances)
+            {
+                instance.Load();
+            }
+            
             _gameStateHandler.State = GameStateHandler.GameState.Playing;
             CursorState = CursorState.Normal;
         }
@@ -35,7 +42,7 @@ namespace Krystal
             if ((IsMouseButtonPressed(MouseButton.Left) && IsFocused) && CursorState != CursorState.Grabbed)
                 CursorState = CursorState.Grabbed;
             
-            _gameStateHandler.Update(e, this.KeyboardState,  this);
+            _gameStateHandler.Update(e, KeyboardState,  this);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -44,7 +51,7 @@ namespace Krystal
             GL.ClearColor(Color4.Black);
             
             _renderHandler.Update(e);
-            _gameStateHandler.Render(e, ref _renderHandler); ;
+            _gameStateHandler.Render(e, ref _renderHandler);
             
             SwapBuffers();
         }

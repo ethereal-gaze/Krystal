@@ -7,16 +7,8 @@ namespace Krystal;
 
 public class PlayingState : IGameState
 {
-    private TestMesh _tm;
-    private Camera _camera;
-    private Texture2D _textureTest;
-
-    public PlayingState()
-    {
-        _tm = new TestMesh();
-        _camera = new Camera();
-        _textureTest = new Texture2D("Assets/Textures/Grass.png");
-    }
+    private readonly TestMesh _tm = new();
+    private Camera _camera = new();
     
     public void Update(FrameEventArgs e, ref KeyboardState keyboardState, ref GameWindow gameWindow)
     {
@@ -26,7 +18,6 @@ public class PlayingState : IGameState
 
     public void Render(ref RenderHandler renderHandler)
     {
-        _textureTest.Bind();
         renderHandler.Draw(_tm, ref _camera);
     }
 }

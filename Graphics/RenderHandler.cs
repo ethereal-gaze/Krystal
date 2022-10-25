@@ -48,6 +48,8 @@ namespace Krystal.Graphics
             drawable.Program.SetMatrix4Uniform("glProjection", camera.FrustumMatrix);
             drawable.Program.SetFloatUniform("deltaTime", (float)_frameEventArgs.Time);
             
+            GameContent.Get<Texture2D>(drawable.TextureID).Bind();
+            
             GL.DrawElements(PrimitiveType.Triangles, drawable.Model.indices.Count, DrawElementsType.UnsignedShort, 0);
         }
     }
