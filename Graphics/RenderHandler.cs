@@ -5,13 +5,16 @@ using OpenTK.Windowing.Common;
 
 namespace Krystal.Graphics
 {
+    /// <summary>
+    /// Main rendering class used for rendering drawables.
+    /// </summary>
     public class RenderHandler
     {
         private readonly int _vertexArray = GL.GenVertexArray();
         private readonly int _vertexBuffer = GL.GenBuffer();
         private readonly int _indexBuffer = GL.GenBuffer();
         private FrameEventArgs _frameEventArgs;
-
+        
         public RenderHandler()
         {
             GL.BindVertexArray(_vertexArray);
@@ -26,10 +29,21 @@ namespace Krystal.Graphics
                 GL.EnableVertexAttribArray(0);
                 GL.EnableVertexAttribArray(1);
         }
+        
+        /// <summary>
+        /// Updates any necessary per-frame data the renderer needs.
+        /// </summary>
+        /// <param name="e">Frame Event Arguments mainly for the deltaTime</param>
         public void Update(FrameEventArgs e)
         {
             _frameEventArgs = e;
         }
+        
+        /// <summary>
+        /// Draws the provided drawable onto the screen
+        /// </summary>
+        /// <param name="drawable">Drawable to draw</param>
+        /// <param name="camera">Camera to use for matrices</param>
         public void Draw(Drawable drawable, ref Camera camera)
         {
             GL.BufferData(BufferTarget.ArrayBuffer,

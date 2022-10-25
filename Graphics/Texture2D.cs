@@ -4,6 +4,9 @@ using StbImageSharp;
 
 namespace Krystal.Graphics
 {
+    /// <summary>
+    /// Defines a 2 Dimensional texture. Automatically uploaded to video memory.
+    /// </summary>
     public abstract class Texture2D : ContentType
     {
         private readonly int _textureHandle = GL.GenTexture();
@@ -11,6 +14,9 @@ namespace Krystal.Graphics
         private bool _flipped;
         private string _file;
 
+        /// <summary>
+        /// The file path which the texture is stored at.
+        /// </summary>
         public string TextureFile
         {
             get => _file;
@@ -27,6 +33,9 @@ namespace Krystal.Graphics
             }
         }
 
+        /// <summary>
+        /// Whether or not the texture is flipped upside down or not.
+        /// </summary>
         public bool Flipped
         {
             get => _flipped;
@@ -38,6 +47,9 @@ namespace Krystal.Graphics
             }
         }
 
+        /// <summary>
+        /// Loads the texture from the TextureFile property.
+        /// </summary>
         private void LoadTextureFromFile()
         {
             if (!Flipped)
@@ -60,6 +72,9 @@ namespace Krystal.Graphics
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
+        /// <summary>
+        /// Binds this texture for use in OpenGL
+        /// </summary>
         public void Bind()
         {
             GL.BindTexture(TextureTarget.Texture2D, _textureHandle);

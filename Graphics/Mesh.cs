@@ -1,5 +1,8 @@
 namespace Krystal.Graphics
 {
+    /// <summary>
+    /// An object which defines vertices and indices for use with the Renderer
+    /// </summary>
     public struct Mesh
     {
         public List<Vertex3D> vertices;

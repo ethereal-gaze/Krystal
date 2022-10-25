@@ -6,6 +6,9 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Krystal.Graphics;
 
+/// <summary>
+/// An abstract representation of the view and projection matrices
+/// </summary>
 public class Camera : Object3D
 {
     private float _fov;
@@ -23,6 +26,9 @@ public class Camera : Object3D
     
     Vector2 lastPos = new Vector2(0, 0);
 
+    /// <summary>
+    /// Defines the Aspect Ratio. Incorrect values may result in a stretched view.
+    /// </summary>
     public Vector2 AspectRatio
     {
         get => _aspectRatio;
@@ -33,42 +39,66 @@ public class Camera : Object3D
         }
     }
 
+    /// <summary>
+    /// Defines the field of view.
+    /// </summary>
     private float Fov
     {
         get => MathHelper.RadiansToDegrees(_fov);
         set => _fov = MathHelper.DegreesToRadians(MathHelper.Clamp(value, 1.0f, 90.0f));
     }
 
+    /// <summary>
+    /// Objects less than this distance from the Camera will be discarded in rendering.
+    /// </summary>
     private float NearPlane
     {
         get => _nearPlane;
         set => _nearPlane = Math.Clamp(value, 1, float.MaxValue);
     }
 
+    /// <summary>
+    /// Objects more than this distance from the Camera will be discarded in rendering
+    /// </summary>
     public float FarPlane
     {
         get => _farPlane;
         set => _farPlane = Math.Clamp(value, 1, float.MaxValue);
     }
-
+    
+    /// <summary>
+    /// Defines the speed of this camera's keyboard movement.
+    /// </summary>
     public float Speed
     {
         get => _speed;
         set => _speed = Math.Clamp(value, 0, float.MaxValue);
     }
 
+    /// <summary>
+    /// Defines the pitch of this camera
+    /// </summary>
     public override float Pitch
     {
         get => MathHelper.RadiansToDegrees(_pitch);
         set => _pitch =  MathHelper.DegreesToRadians(MathHelper.Clamp(value, -89f, 89f));
     }
 
+    /// <summary>
+    /// Defines the sensetivity when looking around.
+    /// </summary>
     private float Sensetivity
     {
         get => _sensetivity / 0.01f;
         set => _sensetivity = value * 0.01f;
     }
 
+    /// <summary>
+    /// Moves the camera based on the Keyboard state.
+    /// </summary>
+    /// <param name="keyboardState"></param>
+    /// <param name="deltaTime"></param>
+    /// <param name="mousePosition"></param>
     public void ProcessFreecamMovement(ref KeyboardState keyboardState, float deltaTime, Vector2 mousePosition)
     {
         if (keyboardState.IsKeyDown(Keys.A))
@@ -97,10 +127,20 @@ public class Camera : Object3D
         CalculateVectors();
     }
 
+    /// <summary>
+    /// Get this camera's Projection Matrix
+    /// </summary>
     public Matrix4 FrustumMatrix => Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio.X / AspectRatio.Y,
         _nearPlane, _farPlane);
+    
+    /// <summary>
+    /// This camera's View Matrix
+    /// </summary>
     public Matrix4 OrientalMatrix => Matrix4.LookAt(Position, Position + _front, _up);
 
+    /// <summary>
+    /// Calculates new vector values based on the Euler angles.
+    /// </summary>
     private void CalculateVectors()
     {
         _front.X = MathF.Cos(Pitch) * MathF.Cos(Yaw);

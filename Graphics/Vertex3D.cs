@@ -1,5 +1,8 @@
 namespace Krystal.Graphics
 {
+    /// <summary>
+    /// Struct which represents a 3 Dimensional vertex position. For use with OpenGL.
+    /// </summary>
     public struct Vertex3D
     {
         public float x, y, z;
