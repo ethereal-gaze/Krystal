@@ -11,15 +11,9 @@ namespace Krystal
         void ILoadable.Load()
         {
             SetDefaults();
-            GameContent.Register(this);
         }
-
+        
         protected abstract void SetDefaults();
-
-        protected ContentType()
-        {
-            SetDefaults();
-        }
     }
 }
 

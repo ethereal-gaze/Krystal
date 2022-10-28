@@ -13,8 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Content\Blocks" />
-      <Folder Include="World" />
+      <Folder Include="Assets\Textures" />
     </ItemGroup>
 
 </Project>

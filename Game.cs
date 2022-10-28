@@ -1,4 +1,5 @@
 using System.Reflection;
+using Krystal.Content;
 using Krystal.Graphics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -11,7 +12,7 @@ namespace Krystal
     public class Game : GameWindow
     {
         private readonly GameStateHandler _gameStateHandler;
-        private RenderHandler _renderHandler;
+        private  RenderHandler _renderHandler;
 
         public Game(int initialWidth, int initialHeight, string initialTitle) : base(GameWindowSettings.Default,
             new NativeWindowSettings { Size = (initialWidth, initialHeight), Title = initialTitle })
@@ -22,15 +23,8 @@ namespace Krystal
 
         protected override void OnLoad()
         {
-            var loadableInstances = from t in Assembly.GetExecutingAssembly().GetTypes()
-                where (t.GetInterfaces().Contains(typeof(ILoadable)) && !t.IsAbstract) && t.GetConstructor(Type.EmptyTypes) != null
-                select Activator.CreateInstance(t) as ILoadable;
-
-            foreach (var instance in loadableInstances)
-            {
-                instance.Load();
-            }
-            
+            ContentHandler.LoadContent();
+            ContentHandler.LoadTexture(TextureID.Grass, "Assets/Textures/Grass.png");
             _gameStateHandler.State = GameStateHandler.GameState.Playing;
             CursorState = CursorState.Normal;
         }

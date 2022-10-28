@@ -1,3 +1,4 @@
+using Krystal.Content;
 using Krystal.Graphics.Scene;
 
 namespace Krystal.Graphics
@@ -8,7 +9,7 @@ namespace Krystal.Graphics
         private VertexShader _vertexShader = new VertexShader("Assets/Shaders/core.vert");
         private ShaderProgram _shaderProgram = new ShaderProgram();
 
-        public int TextureID { get; protected set; }
+        public TextureID Texture { get; protected set; }
 
         public Drawable()
         {

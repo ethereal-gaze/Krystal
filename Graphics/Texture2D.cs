@@ -4,7 +4,7 @@ using StbImageSharp;
 
 namespace Krystal.Graphics
 {
-    public abstract class Texture2D : ContentType
+    public class Texture2D
     {
         private readonly int _textureHandle = GL.GenTexture();
         private ImageResult _image;
@@ -65,15 +65,15 @@ namespace Krystal.Graphics
             GL.BindTexture(TextureTarget.Texture2D, _textureHandle);
         }
 
+        public Texture2D(string path)
+        {
+            _file = path;
+            LoadTextureFromFile();
+        }
+
         ~Texture2D()
         {
             GL.DeleteTexture(_textureHandle);
-        }
-
-        protected override void SetDefaults()
-        {
-            TextureFile = "Assets/Textures/ErrorTexture.png";
-            Flipped = false;
         }
     }
 }

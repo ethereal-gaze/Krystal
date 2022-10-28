@@ -1,6 +1,7 @@
 using OpenTK.Graphics.OpenGL4;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Krystal.Content;
 using OpenTK.Windowing.Common;
 
 namespace Krystal.Graphics
@@ -47,8 +48,8 @@ namespace Krystal.Graphics
             drawable.Program.SetMatrix4Uniform("glView", camera.OrientalMatrix);
             drawable.Program.SetMatrix4Uniform("glProjection", camera.FrustumMatrix);
             drawable.Program.SetFloatUniform("deltaTime", (float)_frameEventArgs.Time);
-            
-            GameContent.Get<Texture2D>(drawable.TextureID).Bind();
+
+            ContentHandler.Texture(drawable.Texture).Bind();
             
             GL.DrawElements(PrimitiveType.Triangles, drawable.Model.indices.Count, DrawElementsType.UnsignedShort, 0);
         }

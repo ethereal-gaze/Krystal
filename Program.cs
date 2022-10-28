@@ -7,6 +7,7 @@ namespace Krystal
     {
         public static void Main()
         {
+            Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
             var game = new Game(800, 600, "Krystal");
             game.Run();
         }
